@@ -22,6 +22,8 @@
 		</vue-cropper>
     <button @click="cropImage" style="margin-right: 40px;">Crop</button>
 
+    <img src="./assets/message.png" style="display:none" ref="image1"></img>
+
     <h3>Canvas</h3>
     <div>
       <canvas id="canvas" class="img-canvas" width="980" height="580" ref="canvas"></canvas>
@@ -34,6 +36,7 @@
 <script>
 import $ from 'jquery'
 import VueCropper from 'vue-cropperjs'
+// import Vue from 'vue/dist/vue.js'
 
 export default {
   name: 'App',
@@ -60,7 +63,7 @@ export default {
       let fileData = e.target.files[0] || e.dataTransfer.files[0];
       // FileReaderオブジェクトを使ってファイル読み込み
       let reader = new FileReader();
-      self = this
+      var self = this
 
 			reader.onload = function(event) {
 				self.cropperOptions.img = event.target.result;
@@ -91,6 +94,17 @@ export default {
         0,0,//切り出されるCanvas内での座標指定
         data['vectorX'] * 980, //切り出される画像の横幅
         data['vectorY'] * 580 //切り出される画像の縦幅
+      );
+
+      this.$refs.canvas.getContext('2d').drawImage(
+        this.$refs.image1,
+        0,
+        0,
+        1280,
+        204,
+        0,380,//切り出されるCanvas内での座標指定
+        980, //切り出される画像の横幅
+        200 //切り出される画像の縦幅
       );
 
       this.$refs.downloadLink.href = this.$refs.canvas.toDataURL();
