@@ -30,6 +30,16 @@
     <img src="./assets/game_image/type2/message.png" style="display:none" ref="type2_image"></img>
     <img src="./assets/game_image/type2/button.png" style="display:none" ref="type2_choice1"></img>
     <img src="./assets/game_image/type2/button3.png" style="display:none" ref="type2_choice2"></img>
+    <!-- type3 -->
+    <img src="./assets/game_image/type3/message.png" style="display:none" ref="type3_image"></img>
+    <img src="./assets/game_image/type3/button.png" style="display:none" ref="type3_choice1"></img>
+    <img src="./assets/game_image/type3/button3.png" style="display:none" ref="type3_choice2"></img>
+    <!-- type4 -->
+    <img src="./assets/game_image/type4/message.png" style="display:none" ref="type4_image"></img>
+    <img src="./assets/game_image/type4/button.png" style="display:none" ref="type4_choice1"></img>
+    <img src="./assets/game_image/type4/button3.png" style="display:none" ref="type4_choice2"></img>
+
+
 
     <h3>Canvas</h3>
     <div>
@@ -45,6 +55,12 @@
         <br>
         <input type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
         <label for="two">2</label>
+        <br>
+        <input type="radio" value="type3" v-model="materialType" :checked="materialType == 'type3'" @change="drawCanvas">
+        <label for="two">3</label>
+        <br>
+        <input type="radio" value="type4" v-model="materialType" :checked="materialType == 'type4'" @change="drawCanvas">
+        <label for="two">4</label>
         <br>
       </div>
       <div>
@@ -154,8 +170,81 @@ export default {
             textY1: 155,
             textY2: 275,
           },
-       },
+        },
+        'type3': {
+          message: {
+            imageWidth: 960,
+            ImageHeight: 200,
+            x: 10, y: 380,
+            drawWidth: 960,
+            drawHeight: 200,
+            'text': {
+              height: 510,
+              width: 40,
+              fontStyle: 'black',
+              font: '40px Weltron Urban',
+              fontSize: 40,
+              fontLineHeight: 1.1618,
+            }
+          },
+          name: {
+            x: 50, y: 430,
+            fontStyle: 'black',
+            font: '40px Weltron Urban',
+          },
+          choice: {
+            imageWidth: 512,
+            ImageHeight: 58,
+            x: 200,
+            y1: 120,
+            y2: 240,
+            drawWidth: 512,
+            drawHeight: 58,
+            fontStyle: 'black',
+            font: '25px Weltron Urban',
+            textX: 240,
+            textY1: 165,
+            textY2: 285,
+          },
+        },
+        'type4': {
+          message: {
+            imageWidth: 960,
+            ImageHeight: 160,
+            x: 10, y: 410,
+            drawWidth: 960,
+            drawHeight: 160,
+            'text': {
+              height: 430,
+              width: 230,
+              fontStyle: 'black',
+              font: '40px Weltron Urban',
+              fontSize: 40,
+              fontLineHeight: 1.1618,
+            }
+          },
+          name: {
+            x: 40, y: 430,
+            fontStyle: 'black',
+            font: '40px Weltron Urban',
+          },
+          choice: {
+            imageWidth: 550,
+            ImageHeight: 50,
+            x: 200,
+            y1: 140,
+            y2: 260,
+            drawWidth: 550,
+            drawHeight: 50,
+            fontStyle: 'black',
+            font: '25px Weltron Urban',
+            textX: 230,
+            textY1: 175,
+            textY2: 295,
+          },
+        },
      },
+
      downloadLink: "",
       cropperOptions: {
         img: null,
