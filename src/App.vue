@@ -20,13 +20,22 @@
 				:img-style="{ 'width': '980px', 'height': '580px' }">
 				:cropmove="test"
 		</vue-cropper>
-    <button @click="cropImage" style="margin-right: 40px;">Crop</button>
+    <button @click="drawCanvas" style="margin-right: 40px;">Crop</button>
 
     <img src="./assets/message.png" style="display:none" ref="image1"></img>
 
     <h3>Canvas</h3>
     <div>
       <canvas id="canvas" class="img-canvas" width="980" height="580" ref="canvas"></canvas>
+    </div>
+
+    <div>
+      <div>
+        名前<input type="text" v-model="messageName" @keyup="drawCanvas"></input>
+      </div>
+      <div>
+        メッセージ<textarea v-model="messageText" @keyup="drawCanvas"></textarea>
+      </div>
     </div>
 
     <a href="" id="download_link" ref="downloadLink">ダウンロード</a>
@@ -42,6 +51,9 @@ export default {
   name: 'App',
   data: function() {
     return {
+      canvasContext: {},
+      messageName: "",
+      messageText: "",
       downloadLink: "",
       cropperOptions: {
         img: null,
@@ -72,10 +84,11 @@ export default {
 			};
 			reader.readAsDataURL(fileData);
     },
-    cropImage() {
-      var cropperData = this.$refs.cropper.getData();
-      console.log(cropperData);
+    drawCanvas() {
+      this.canvasContext = this.$refs.canvas.getContext('2d');
+      this.canvasContext.clearRect(0,0, this.canvasContext.canvas.width, this.canvasContext.canvas.height);
 
+      var cropperData = this.$refs.cropper.getData();
       var data = {
         x: Math.round(cropperData.x),
         y: Math.round(cropperData.y),
@@ -85,7 +98,7 @@ export default {
         vectorY: 1
       };
 
-      this.$refs.canvas.getContext('2d').drawImage(
+      this.canvasContext.drawImage(
         this.$refs.cropper.$refs.img,
         data['x'],
         data['y'],
@@ -96,19 +109,44 @@ export default {
         data['vectorY'] * 580 //切り出される画像の縦幅
       );
 
-      this.$refs.canvas.getContext('2d').drawImage(
+      // メッセージウィンドウ
+      this.canvasContext.drawImage(
         this.$refs.image1,
         0,
         0,
-        1280,
-        204,
+        1280, //画像の横幅 TODO: あとで画像はすべてサイズを揃える
+        204, // 画像の縦幅
         0,380,//切り出されるCanvas内での座標指定
         980, //切り出される画像の横幅
         200 //切り出される画像の縦幅
       );
 
+      this.drawMessageText();
+      this.drawMessageName();
+
       this.$refs.downloadLink.href = this.$refs.canvas.toDataURL();
       this.$refs.downloadLink.download = 'sample.jpg';
+    },
+    drawMessageText: function() {
+      this.canvasContext.fillStyle = "black";
+      this.canvasContext.font = "40px Weltron Urban";
+
+      var fontSize = 40;
+      var lineHeight = 1.1618;
+      var height = 470;
+
+			for(var lines=this.messageText.split("\n"), i=0, l=lines.length; l>i; i++) {
+        var lineTextHeight = height;
+        if (i != 0) { lineTextHeight = height + (fontSize + lineHeight) * i; }
+
+				// 2行目以降の水平位置は行数とlineHeightを考慮する
+        this.canvasContext.fillText(lines[i], 30, lineTextHeight);
+			}
+    },
+    drawMessageName: function() {
+      this.canvasContext.fillStyle = "white";
+      this.canvasContext.font = "40px Weltron Urban";
+      this.canvasContext.fillText(this.messageName, 30, 420);
     },
   },
   components: { VueCropper },
