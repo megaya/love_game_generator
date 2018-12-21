@@ -22,9 +22,14 @@
 		</vue-cropper>
     <button @click="drawCanvas" style="margin-right: 40px;">Crop</button>
 
-    <img src="./assets/message.png" style="display:none" ref="image1"></img>
-    <img src="./assets/button.png" style="display:none" ref="choice1"></img>
-    <img src="./assets/button3.png" style="display:none" ref="choice2"></img>
+    <!-- type1 -->
+    <img src="./assets/game_image/type1/message.png" style="display:none" ref="type1_image"></img>
+    <img src="./assets/game_image/type1/button.png" style="display:none" ref="type1_choice1"></img>
+    <img src="./assets/game_image/type1/button3.png" style="display:none" ref="type1_choice2"></img>
+    <!-- type2 -->
+    <img src="./assets/game_image/type2/message.png" style="display:none" ref="type2_image"></img>
+    <img src="./assets/game_image/type2/button.png" style="display:none" ref="type2_choice1"></img>
+    <img src="./assets/game_image/type2/button3.png" style="display:none" ref="type2_choice2"></img>
 
     <h3>Canvas</h3>
     <div>
@@ -32,6 +37,16 @@
     </div>
 
     <div>
+      <div>
+        デザインタイプ
+        <br>
+        <input type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
+        <label for="one">1</label>
+        <br>
+        <input type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
+        <label for="two">2</label>
+        <br>
+      </div>
       <div>
         名前<input type="text" v-model="messageName" @keyup="drawCanvas"></input>
       </div>
@@ -63,9 +78,85 @@ export default {
       messageName: "",
       messageText: "",
       isChoices: false,
+      materialType: 'type1',
       choiceMessage1: '',
       choiceMessage2: '',
-      downloadLink: "",
+      currentMaterialOption: {},
+      materialOptions: {
+        'type1': {
+          message: {
+            imageWidth: 1280,
+            ImageHeight: 204,
+            x: 0, y: 380,
+            drawWidth: 980,
+            drawHeight: 200,
+            'text': {
+              height: 470,
+              width: 30,
+              fontStyle: 'black',
+              font: '40px Weltron Urban',
+              fontSize: 40,
+              fontLineHeight: 1.1618,
+            }
+          },
+          name: {
+            x: 30, y: 420,
+            fontStyle: 'white',
+            font: '40px Weltron Urban',
+          },
+          choice: {
+            imageWidth: 660,
+            ImageHeight: 70,
+            x: 150,
+            y1: 120,
+            y2: 240,
+            drawWidth: 660,
+            drawHeight: 70,
+            fontStyle: 'black',
+            font: '25px Weltron Urban',
+            textX: 240,
+            textY1: 165,
+            textY2: 285,
+          },
+        },
+        'type2': {
+          message: {
+            imageWidth: 960,
+            ImageHeight: 200,
+            x: 10, y: 370,
+            drawWidth: 960,
+            drawHeight: 200,
+            'text': {
+              height: 480,
+              width: 60,
+              fontStyle: 'black',
+              font: '40px Weltron Urban',
+              fontSize: 40,
+              fontLineHeight: 1.1618,
+            }
+          },
+          name: {
+            x: 40, y: 425,
+            fontStyle: 'white',
+            font: '40px Weltron Urban',
+          },
+          choice: {
+            imageWidth: 486,
+            ImageHeight: 46,
+            x: 240,
+            y1: 120,
+            y2: 240,
+            drawWidth: 486,
+            drawHeight: 46,
+            fontStyle: 'black',
+            font: '25px Weltron Urban',
+            textX: 260,
+            textY1: 155,
+            textY2: 275,
+          },
+       },
+     },
+     downloadLink: "",
       cropperOptions: {
         img: null,
         size: 1,
@@ -98,6 +189,7 @@ export default {
     drawCanvas() {
       this.canvasContext = this.$refs.canvas.getContext('2d');
       this.canvasContext.clearRect(0,0, this.canvasContext.canvas.width, this.canvasContext.canvas.height);
+      this.currentlmaterialOption = this.materialOptions[this.materialType]
 
       var cropperData = this.$refs.cropper.getData();
       var data = {
@@ -120,16 +212,18 @@ export default {
         data['vectorY'] * 580 //切り出される画像の縦幅
       );
 
+      var messageOption = this.currentlmaterialOption.message
       // メッセージウィンドウ
       this.canvasContext.drawImage(
-        this.$refs.image1,
+        this.$refs[this.materialType + '_image'],
         0,
         0,
-        1280, //画像の横幅 TODO: あとで画像はすべてサイズを揃える
-        204, // 画像の縦幅
-        0,380,//切り出されるCanvas内での座標指定
-        980, //切り出される画像の横幅
-        200 //切り出される画像の縦幅
+        messageOption.imageWidth, //画像の横幅
+        messageOption.ImageHeight, // 画像の縦幅
+        messageOption.x, //切り出されるCanvas内での座標指定
+        messageOption.y,
+        messageOption.drawWidth, //切り出される画像の横幅
+        messageOption.drawHeight //切り出される画像の縦幅
       );
 
       this.drawMessageName();
@@ -140,53 +234,55 @@ export default {
       this.$refs.downloadLink.download = 'sample.jpg';
     },
     drawMessageText: function() {
-      this.canvasContext.fillStyle = "black";
-      this.canvasContext.font = "40px Weltron Urban";
-
-      var fontSize = 40;
-      var lineHeight = 1.1618;
-      var height = 470;
+      var textOption = this.currentlmaterialOption.message.text;
+      this.canvasContext.fillStyle = textOption.fontStyle;
+      this.canvasContext.font = textOption.font;
 
 			for(var lines=this.messageText.split("\n"), i=0, l=lines.length; l>i; i++) {
-        var lineTextHeight = height;
-        if (i != 0) { lineTextHeight = height + (fontSize + lineHeight) * i; }
+        var lineTextHeight = textOption.height;
+        if (i != 0) { lineTextHeight = textOption.height + (textOption.fontSize + textOption.fontLineHeight) * i; }
 
 				// 2行目以降の水平位置は行数とlineHeightを考慮する
-        this.canvasContext.fillText(lines[i], 30, lineTextHeight);
+        this.canvasContext.fillText(lines[i], textOption.width, lineTextHeight);
 			}
     },
     drawMessageName: function() {
-      this.canvasContext.fillStyle = "white";
-      this.canvasContext.font = "40px Weltron Urban";
-      this.canvasContext.fillText(this.messageName, 30, 420);
+      var option = this.currentlmaterialOption.name
+      this.canvasContext.fillStyle = option.fontStyle;
+      this.canvasContext.font = option.font;
+      this.canvasContext.fillText(this.messageName, option.x, option.y);
     },
     drawChoices: function() {
       if (this.isChoices) {
+        var option = this.currentlmaterialOption.choice;
+
         this.canvasContext.drawImage(
-          this.$refs.choice2,
+          this.$refs[this.materialType + "_choice2"],
           0,
           0,
-          660, //画像の横幅 TODO: あとで画像はすべてサイズを揃える
-          70, // 画像の縦幅
-          150,120,//切り出されるCanvas内での座標指定
-          660, //切り出される画像の横幅
-          70 //切り出される画像の縦幅
+          option.imageWidth, //画像の横幅
+          option.ImageHeight, // 画像の縦幅
+          option.x,
+          option.y1,//切り出されるCanvas内での座標指定
+          option.drawWidth, //切り出される画像の横幅
+          option.drawHeight//切り出される画像の縦幅
         );
         this.canvasContext.drawImage(
-          this.$refs.choice1,
+          this.$refs[this.materialType + "_choice1"],
           0,
           0,
-          660, //画像の横幅 TODO: あとで画像はすべてサイズを揃える
-          70, // 画像の縦幅
-          150,240,//切り出されるCanvas内での座標指定
-          660, //切り出される画像の横幅
-          70 //切り出される画像の縦幅
+          option.imageWidth, //画像の横幅
+          option.ImageHeight, // 画像の縦幅
+          option.x,
+          option.y2,//切り出されるCanvas内での座標指定
+          option.drawWidth, //切り出される画像の横幅
+          option.drawHeight//切り出される画像の縦幅
         );
 
-        this.canvasContext.fillStyle = "black";
-        this.canvasContext.font = "25px Weltron Urban";
-        this.canvasContext.fillText(this.choiceMessage1, 220, 165);
-        this.canvasContext.fillText(this.choiceMessage2, 220, 285);
+        this.canvasContext.fillStyle = option.fontStyle;
+        this.canvasContext.font = option.font;
+        this.canvasContext.fillText(this.choiceMessage1, option.textX, option.textY1);
+        this.canvasContext.fillText(this.choiceMessage2, option.textX, option.textY2);
       }
     },
   },
