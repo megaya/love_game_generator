@@ -23,6 +23,8 @@
     <button @click="drawCanvas" style="margin-right: 40px;">Crop</button>
 
     <img src="./assets/message.png" style="display:none" ref="image1"></img>
+    <img src="./assets/button.png" style="display:none" ref="choice1"></img>
+    <img src="./assets/button3.png" style="display:none" ref="choice2"></img>
 
     <h3>Canvas</h3>
     <div>
@@ -35,6 +37,12 @@
       </div>
       <div>
         メッセージ<textarea v-model="messageText" @keyup="drawCanvas"></textarea>
+      </div>
+      <div>
+        選択肢
+        <input type="checkbox" v-model="isChoices" @change="drawCanvas">
+        選択肢1<input type="text" v-model="choiceMessage1" @keyup="drawCanvas"></input>
+        選択肢2<input type="text" v-model="choiceMessage2" @keyup="drawCanvas"></input>
       </div>
     </div>
 
@@ -54,6 +62,9 @@ export default {
       canvasContext: {},
       messageName: "",
       messageText: "",
+      isChoices: false,
+      choiceMessage1: '',
+      choiceMessage2: '',
       downloadLink: "",
       cropperOptions: {
         img: null,
@@ -121,8 +132,9 @@ export default {
         200 //切り出される画像の縦幅
       );
 
-      this.drawMessageText();
       this.drawMessageName();
+      this.drawMessageText();
+      this.drawChoices();
 
       this.$refs.downloadLink.href = this.$refs.canvas.toDataURL();
       this.$refs.downloadLink.download = 'sample.jpg';
@@ -147,6 +159,35 @@ export default {
       this.canvasContext.fillStyle = "white";
       this.canvasContext.font = "40px Weltron Urban";
       this.canvasContext.fillText(this.messageName, 30, 420);
+    },
+    drawChoices: function() {
+      if (this.isChoices) {
+        this.canvasContext.drawImage(
+          this.$refs.choice2,
+          0,
+          0,
+          660, //画像の横幅 TODO: あとで画像はすべてサイズを揃える
+          70, // 画像の縦幅
+          150,120,//切り出されるCanvas内での座標指定
+          660, //切り出される画像の横幅
+          70 //切り出される画像の縦幅
+        );
+        this.canvasContext.drawImage(
+          this.$refs.choice1,
+          0,
+          0,
+          660, //画像の横幅 TODO: あとで画像はすべてサイズを揃える
+          70, // 画像の縦幅
+          150,240,//切り出されるCanvas内での座標指定
+          660, //切り出される画像の横幅
+          70 //切り出される画像の縦幅
+        );
+
+        this.canvasContext.fillStyle = "black";
+        this.canvasContext.font = "25px Weltron Urban";
+        this.canvasContext.fillText(this.choiceMessage1, 220, 165);
+        this.canvasContext.fillText(this.choiceMessage2, 220, 285);
+      }
     },
   },
   components: { VueCropper },
