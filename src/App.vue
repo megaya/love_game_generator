@@ -113,6 +113,19 @@
               </div>
             </div>
 
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">システムボタン</legend>
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" v-model="isSysytemButton" @change="drawCanvas">
+                    <label class="form-check-label">表示する</label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+
             <div>
               <fieldset class="form-group">
                 <div class="row">
@@ -171,6 +184,11 @@
     <img src="./assets/game_image/type4/message.png" style="display:none" ref="type4_image"></img>
     <img src="./assets/game_image/type4/button.png" style="display:none" ref="type4_choice1"></img>
     <img src="./assets/game_image/type4/button3.png" style="display:none" ref="type4_choice2"></img>
+    <!-- menu -->
+    <img src="./assets/game_image/menu.png" style="display:none" ref="menu_image"></img>
+    <img src="./assets/game_image/load.png" style="display:none" ref="load_image"></img>
+    <img src="./assets/game_image/skip.png" style="display:none" ref="skip_image"></img>
+    <img src="./assets/game_image/save.png" style="display:none" ref="save_image"></img>
 
   </div>
 </template>
@@ -190,6 +208,7 @@ export default {
       messageName: "",
       messageText: "",
       isChoices: false,
+      isSysytemButton: false,
       materialType: 'type1',
       choiceMessage1: '',
       choiceMessage2: '',
@@ -428,12 +447,48 @@ export default {
       this.drawMessageName();
       this.drawMessageText();
       this.drawChoices();
+      this.drawSystemButton();
 
       this.$refs.downloadLink.href = this.$refs.canvas.toDataURL();
       this.$refs.downloadLink.download = 'sample.jpg';
     },
     addFontTypeCurrent: function(str) {
       return str + " " + this.fontTypeCurrent;
+    },
+    drawSystemButton: function() {
+      if (this.isSysytemButton) {
+        let _imgWidth = 70;
+        let _imgHeight = 30;
+
+        this.canvasContext.drawImage(
+          this.$refs.menu_image,
+          0, 0,
+          _imgWidth, _imgHeight,
+          260, 300, //切り出されるCanvas内での座標指定
+          _imgWidth, _imgHeight
+        );
+        this.canvasContext.drawImage(
+          this.$refs.save_image,
+          0, 0,
+          _imgWidth, _imgHeight,
+          340, 300, //切り出されるCanvas内での座標指定
+          _imgWidth, _imgHeight
+        );
+        this.canvasContext.drawImage(
+          this.$refs.load_image,
+          0, 0,
+          _imgWidth, _imgHeight,
+          420, 300, //切り出されるCanvas内での座標指定
+          _imgWidth, _imgHeight
+        );
+        this.canvasContext.drawImage(
+          this.$refs.skip_image,
+          0, 0,
+          _imgWidth, _imgHeight,
+          500, 300, //切り出されるCanvas内での座標指定
+          _imgWidth, _imgHeight
+        );
+      }
     },
     drawMessageText: function() {
       var textOption = this.currentlmaterialOption.message.text;
