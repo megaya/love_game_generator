@@ -49,7 +49,7 @@
         <div class="card-footer">
           <p class="card-text">
             画像は位置調整や拡大や縮小ができます。<br />
-            画像のサイズを決定すると「3. 画像編集」に表示されます
+            画像のサイズを決定すると、下の「画像編集」に表示されます。
           </p>
           <button class="btn btn-primary" @click="drawCanvas" style="margin-right: 40px;">画像サイズ決定</button>
         </div>
@@ -57,7 +57,7 @@
 
 
       <div class="card">
-        <div class="card-header">3. 画像編集</div>
+        <div class="card-header"> 画像編集</div>
         <div class="card-body">
           <canvas id="canvas" class="img-canvas" width="680" height="480" ref="canvas"></canvas>
         </div>
@@ -87,6 +87,17 @@
                 </div><!-- col-sm-10 -->
               </div><!-- form radio -->
             </fieldset>
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">フォント</label>
+              <div class="col-sm-10">
+                <select class="form-control" v-model="fontTypeCurrent" @change="drawCanvas">
+                  <option v-for="fontType in fontTypes" v-bind:value="fontType">
+                    {{ fontType }}
+                  </option>
+                </select>
+              </div>
+            </div>
 
             <div class="form-group row">
               <label for="inputEmail3" class="col-sm-2 col-form-label">名前</label>
@@ -184,6 +195,12 @@ export default {
       choiceMessage2: '',
       currentMaterialOption: {},
       downloadLink: "",
+      fontTypes: ['sans-serif', 'arial', 'serif', 'Impact', 'Century', 'monospace', 'fantasy', 'HG行書体', 'MingLiU',
+                  'メイリオ', 'ＭＳ ゴシック', '游ゴシック', 'Yu Gothic', 'MS PGothic',
+                  'HiraMinProN-W3', 'HG明朝E', 'ＭＳ 明朝',
+                  'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro'
+      ],
+      fontTypeCurrent: "",
       materialOptions: {
         'type1': {
           message: {
@@ -196,15 +213,15 @@ export default {
               height: 390,
               width: 30,
               fontStyle: 'black',
-              font: '40px Weltron Urban',
+              font: '40px',
               fontSize: 40,
-              fontLineHeight: 1.1618,
+              fontLineHeight: 10.1618,
             }
           },
           name: {
             x: 20, y: 330,
             fontStyle: 'white',
-            font: '40px Weltron Urban',
+            font: '40px',
           },
           choice: {
             imageWidth: 450,
@@ -215,7 +232,7 @@ export default {
             drawWidth: 450,
             drawHeight: 47,
             fontStyle: 'black',
-            font: '20px Weltron Urban',
+            font: '20px',
             textX: 160,
             textY1: 133,
             textY2: 253,
@@ -232,7 +249,7 @@ export default {
               height: 390,
               width: 60,
               fontStyle: 'black',
-              font: '40px Weltron Urban',
+              font: '40px',
               fontSize: 40,
               fontLineHeight: 1.1618,
             }
@@ -240,7 +257,7 @@ export default {
           name: {
             x: 30, y: 335,
             fontStyle: 'white',
-            font: '40px Weltron Urban',
+            font: '40px',
           },
           choice: {
             imageWidth: 486,
@@ -251,7 +268,7 @@ export default {
             drawWidth: 486,
             drawHeight: 46,
             fontStyle: 'black',
-            font: '25px Weltron Urban',
+            font: '25px',
             textX: 140,
             textY1: 130,
             textY2: 250,
@@ -268,15 +285,15 @@ export default {
               height: 390,
               width: 40,
               fontStyle: 'black',
-              font: '40px Weltron Urban',
+              font: '40px',
               fontSize: 40,
-              fontLineHeight: 1.1618,
+              fontLineHeight: 5.1618,
             }
           },
           name: {
             x: 30, y: 330,
             fontStyle: 'black',
-            font: '40px Weltron Urban',
+            font: '40px',
           },
           choice: {
             imageWidth: 512,
@@ -287,7 +304,7 @@ export default {
             drawWidth: 512,
             drawHeight: 58,
             fontStyle: 'black',
-            font: '25px Weltron Urban',
+            font: '25px',
             textX: 110,
             textY1: 140,
             textY2: 260,
@@ -304,15 +321,15 @@ export default {
               height: 390,
               width: 90,
               fontStyle: 'black',
-              font: '40px Weltron Urban',
+              font: '40px',
               fontSize: 40,
-              fontLineHeight: 1.1618,
+              fontLineHeight: 6.1618,
             }
           },
           name: {
             x: 30, y: 340,
             fontStyle: 'black',
-            font: '40px Weltron Urban',
+            font: '40px',
           },
           choice: {
             imageWidth: 550,
@@ -323,7 +340,7 @@ export default {
             drawWidth: 550,
             drawHeight: 50,
             fontStyle: 'black',
-            font: '25px Weltron Urban',
+            font: '25px',
             textX: 90,
             textY1: 115,
             textY2: 235,
@@ -345,6 +362,7 @@ export default {
     }
   },
   created: function() {
+    this.fontTypeCurrent = this.fontTypes[0];
     var self = this;
     Vue.nextTick(function () {
 			self.cropperOptions.img = self.$refs.sample_image.src;
@@ -414,10 +432,13 @@ export default {
       this.$refs.downloadLink.href = this.$refs.canvas.toDataURL();
       this.$refs.downloadLink.download = 'sample.jpg';
     },
+    addFontTypeCurrent: function(str) {
+      return str + " " + this.fontTypeCurrent;
+    },
     drawMessageText: function() {
       var textOption = this.currentlmaterialOption.message.text;
       this.canvasContext.fillStyle = textOption.fontStyle;
-      this.canvasContext.font = textOption.font;
+      this.canvasContext.font = this.addFontTypeCurrent(textOption.font);
 
 			for(var lines=this.messageText.split("\n"), i=0, l=lines.length; l>i; i++) {
         var lineTextHeight = textOption.height;
@@ -430,7 +451,8 @@ export default {
     drawMessageName: function() {
       var option = this.currentlmaterialOption.name
       this.canvasContext.fillStyle = option.fontStyle;
-      this.canvasContext.font = option.font;
+      this.canvasContext.font = this.addFontTypeCurrent(option.font);
+
       this.canvasContext.fillText(this.messageName, option.x, option.y);
     },
     drawChoices: function() {
@@ -463,7 +485,8 @@ export default {
 
         this.canvasContext.globalAlpha = 1.0; //透過解除
         this.canvasContext.fillStyle = option.fontStyle;
-        this.canvasContext.font = option.font;
+        this.canvasContext.font = this.addFontTypeCurrent(option.font);
+
         this.canvasContext.fillText(this.choiceMessage1, option.textX, option.textY1);
         this.canvasContext.fillText(this.choiceMessage2, option.textX, option.textY2);
       }
