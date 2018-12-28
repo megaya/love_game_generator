@@ -5,32 +5,35 @@
       <div class="jumbotron">
         <h1 class="display-4">シュミレーションゲーム風ジェネレーター</h1>
         <hr class="my-4">
-        <p class="lead">
-          画像をシュミレーションゲームのような会話ウィンドウと選択肢を追加できます。<br />
+        <p>
+          画像にシュミレーションゲームのような会話ウィンドウと選択肢を追加できます。<br />
           写真やお気に入りの画像を理想のゲームの世界に変更してみてください。<br />
-          3ステップで簡単に画像を作ることができるので、ぜひ作ってみてください。
+          <br />
+          3ステップで簡単に画像を作ることができます。
         </p>
         <ul class="list-unstyled">
           <li>1. 画像のアップロード</li>
           <li>2. 画像のサイズ調整</li>
           <li>3. 画像の編集</li>
         </ul>
-        <img src="./assets/top.jpg" class="rounded" alt="Responsive image" width="430" height="540">
+        <img src="./assets/top.jpg" alt="Responsive image" width="430" height="540"  class="img-thumbnail">
 
         <hr class="my-4">
         <p class="description">
-          なにか不具合があれば<a href="https://twitter.com/megaya0403" target="_blank">@megaya0403</a>までよろしくお願いします。
+          要望や不具合があれば<a href="https://twitter.com/megaya0403" target="_blank">@megaya0403</a>までよろしくお願いします。
         </p>
       </div>
 
       <div class="card">
         <div class="card-header">画像のアップロード ＆ サイズ調整</div>
-        <div class="card-body">
 
-          <div class="custom-file">
-            <input type="file" name="file" @change="loadLocalImage" class="custom-file-input" lang="ja">
-            <label class="custom-file-label" for="validatedCustomFile">クリックして画像をアップロードする</label>
-          </div>
+        <div class="card-body">
+          <label class="upload-btn">
+            <span class="btn-lg btn-primary">
+              画像をアップロードする
+              <input type="file" name="file" @change="loadLocalImage" lang="ja" style="display:none">
+            </span>
+          </label>
 
           <div @mouseover="drawCanvas" @mouseout="drawCanvas" @click="drawCanvas">
             <vue-cropper
@@ -46,14 +49,15 @@
                 :img-style="{ 'width': '600', 'height': '400px' }">
             </vue-cropper>
           </div>
+
         </div><!-- body -->
 
         <div class="card-footer">
-          <p class="card-text">
+          <p class="card-text description">
             画像は位置調整や拡大や縮小ができます。<br />
-            画像のサイズを決定すると、下の「画像編集」に表示されます。
+            「画像サイズ決定」ボタンを押すと下の「画像編集」に表示されます。
           </p>
-          <button class="btn btn-primary" @click="drawCanvas" style="margin-right: 40px;">画像サイズ決定</button>
+          <button class="btn-lg btn-secondary" @click="drawCanvas">画像サイズ決定</button>
         </div>
       </div><!-- div card -->
 
@@ -71,20 +75,20 @@
                 <legend class="col-form-label col-sm-4 pt-0">デザイン</legend>
                 <div class="col-sm-8">
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
-                    <label class="form-check-label">タイプ1</label>
+                    <input id="type1" class="form-check-input" type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
+                    <label for="type1" class="form-check-label">タイプ1</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
-                    <label class="form-check-label">タイプ2</label>
+                    <input id="type2" class="form-check-input" type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
+                    <label for="type2" class="form-check-label">タイプ2</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" value="type3" v-model="materialType" :checked="materialType == 'type3'" @change="drawCanvas">
-                    <label class="form-check-label">タイプ3</label>
+                    <input id="type3" class="form-check-input" type="radio" value="type3" v-model="materialType" :checked="materialType == 'type3'" @change="drawCanvas">
+                    <label for="type3" class="form-check-label">タイプ3</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" value="type4" v-model="materialType" :checked="materialType == 'type4'" @change="drawCanvas">
-                    <label class="form-check-label">タイプ4</label>
+                    <input id="type4" class="form-check-input" type="radio" value="type4" v-model="materialType" :checked="materialType == 'type4'" @change="drawCanvas">
+                    <label for="type4" class="form-check-label">タイプ4</label>
                   </div>
                 </div><!-- col-sm-10 -->
               </div><!-- form radio -->
@@ -94,7 +98,7 @@
               <label class="col-sm-4 col-form-label">フォント</label>
               <div class="col-sm-8">
                 <select class="form-control" v-model="fontTypeCurrent" @change="drawCanvas">
-                  <option v-for="fontType in fontTypes" v-bind:value="fontType">
+                  <option v-for="fontType in fontTypes" v-bind:value="fontType" class="font-type">
                     {{ fontType }}
                   </option>
                 </select>
@@ -111,7 +115,7 @@
             <div class="form-group row">
               <label for="inputEmail3" class="col-sm-4 col-form-label">メッセージ</label>
               <div class="col-sm-8">
-                <textarea class="form-control" v-model="messageText" @keyup="drawCanvas"></textarea>
+                <textarea class="form-control textarea-message" v-model="messageText" @keyup="drawCanvas"></textarea>
               </div>
             </div>
 
@@ -120,8 +124,8 @@
                 <legend class="col-form-label col-sm-4 pt-0">ボタン</legend>
                 <div class="col-sm-8">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" v-model="isSysytemButton" @change="drawCanvas">
-                    <label class="form-check-label">システムボタンを表示する</label>
+                    <input id="system-button-check" class="form-check-input" type="checkbox" v-model="isSysytemButton" @change="drawCanvas">
+                    <label for="system-button-check" class="form-check-label">システムボタンを表示する</label>
                   </div>
                 </div>
               </div>
@@ -134,14 +138,14 @@
                   <legend class="col-form-label col-sm-4 pt-0">選択肢</legend>
                   <div class="col-sm-8">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" v-model="isChoices" @change="drawCanvas">
-                      <label class="form-check-label">選択肢を表示する</label>
+                      <input id="choice-check" class="form-check-input" type="checkbox" v-model="isChoices" @change="drawCanvas">
+                      <label for="choice-check" class="form-check-label">選択肢を表示する</label>
                     </div>
                   </div>
                 </div>
               </fieldset>
 
-              <div v-show="isChoices">
+              <div>
                 <div class="form-group row">
                   <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢1</label>
                   <div class="col-sm-8">
@@ -159,7 +163,7 @@
             </div><!-- 選択肢 -->
 
             <div class="card-body">
-              <a id="download_link" class="btn btn-primary" href="#" role="button" ref="downloadLink">画像ダウンロード</a>
+              <a id="download_link" class="btn-lg btn-primary" href="#" role="button" ref="downloadLink">画像ダウンロード</a>
             </div>
           </form>
 
@@ -209,8 +213,8 @@ export default {
       canvasContext: {},
       messageName: "",
       messageText: "",
-      isChoices: false,
-      isSysytemButton: false,
+      isChoices: true,
+      isSysytemButton: true,
       materialType: 'type1',
       choiceMessage1: '',
       choiceMessage2: '',
@@ -555,8 +559,36 @@ export default {
 
 <style>
 html {font-size: 82.5%;}
-body {font-size: 1.5rem;}
+body {font-size: 1.8rem;}
 ul {font-size: 1.3rem;}
+
+.upload-btn {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.btn-lg {
+  font-size: 1.4em;
+}
+
+form {
+  font-size: 1.1em;
+}
+
+.form-check {
+  margin-bottom: 15px;
+}
+
+input[type=text] {
+  font-size: 30px;
+}
+
+.textarea-message {
+  font-size: 30px;
+}
+
+.description {
+  font-size: 1.4rem;
+}
 
 .custom-file {
   margin-bottom: 20px;
