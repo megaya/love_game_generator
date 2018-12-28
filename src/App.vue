@@ -13,6 +13,8 @@
           <li>2. 画像のサイズ調整</li>
           <li>3. 画像の編集</li>
         </ul>
+        <img src="./assets/top.jpg" class="rounded" alt="Responsive image" width="430" height="540">
+
         <hr class="my-4">
         <p>
           なにか不具合があれば<a href="https://twitter.com/megaya0403" target="_blank">@megaya0403</a>までよろしくお願いします。
@@ -38,13 +40,11 @@
               :view-mode="2"
               drag-mode="crop"
               :auto-crop-area="0.5"
-              :min-container-width="250"
-              :min-container-height="180"
               :background="true"
               :rotatable="true"
               :src="cropperOptions.img"
               alt="Source Image"
-              :img-style="{ 'width': '980px', 'height': '580px' }">
+              :img-style="{ 'width': '680', 'height': '480px' }">
           </vue-cropper>
         </div>
 
@@ -61,7 +61,7 @@
       <div class="card">
         <div class="card-header">3. 画像編集</div>
         <div class="card-body">
-          <canvas id="canvas" class="img-canvas" width="980" height="580" ref="canvas"></canvas>
+          <canvas id="canvas" class="img-canvas" width="680" height="480" ref="canvas"></canvas>
         </div>
         <div class="card-footer">
 
@@ -195,11 +195,11 @@ export default {
           message: {
             imageWidth: 1280,
             ImageHeight: 204,
-            x: 0, y: 380,
-            drawWidth: 980,
+            x: 0, y: 290,
+            drawWidth: 680,
             drawHeight: 200,
             'text': {
-              height: 470,
+              height: 390,
               width: 30,
               fontStyle: 'black',
               font: '40px Weltron Urban',
@@ -208,34 +208,34 @@ export default {
             }
           },
           name: {
-            x: 30, y: 420,
+            x: 20, y: 330,
             fontStyle: 'white',
             font: '40px Weltron Urban',
           },
           choice: {
-            imageWidth: 660,
-            ImageHeight: 70,
-            x: 150,
-            y1: 120,
-            y2: 240,
-            drawWidth: 660,
-            drawHeight: 70,
+            imageWidth: 450,
+            ImageHeight: 47,
+            x: 100,
+            y1: 100,
+            y2: 220,
+            drawWidth: 450,
+            drawHeight: 47,
             fontStyle: 'black',
-            font: '25px Weltron Urban',
-            textX: 240,
-            textY1: 165,
-            textY2: 285,
+            font: '20px Weltron Urban',
+            textX: 160,
+            textY1: 133,
+            textY2: 253,
           },
         },
         'type2': {
           message: {
-            imageWidth: 960,
+            imageWidth: 660,
             ImageHeight: 200,
-            x: 10, y: 370,
-            drawWidth: 960,
+            x: 10, y: 280,
+            drawWidth: 660,
             drawHeight: 200,
             'text': {
-              height: 480,
+              height: 390,
               width: 60,
               fontStyle: 'black',
               font: '40px Weltron Urban',
@@ -244,34 +244,34 @@ export default {
             }
           },
           name: {
-            x: 40, y: 425,
+            x: 30, y: 335,
             fontStyle: 'white',
             font: '40px Weltron Urban',
           },
           choice: {
             imageWidth: 486,
             ImageHeight: 46,
-            x: 240,
-            y1: 120,
-            y2: 240,
+            x: 120,
+            y1: 100,
+            y2: 220,
             drawWidth: 486,
             drawHeight: 46,
             fontStyle: 'black',
             font: '25px Weltron Urban',
-            textX: 260,
-            textY1: 155,
-            textY2: 275,
+            textX: 140,
+            textY1: 130,
+            textY2: 250,
           },
         },
         'type3': {
           message: {
-            imageWidth: 960,
+            imageWidth: 660,
             ImageHeight: 200,
-            x: 10, y: 380,
-            drawWidth: 960,
+            x: 10, y: 280,
+            drawWidth: 660,
             drawHeight: 200,
             'text': {
-              height: 510,
+              height: 390,
               width: 40,
               fontStyle: 'black',
               font: '40px Weltron Urban',
@@ -280,35 +280,35 @@ export default {
             }
           },
           name: {
-            x: 50, y: 430,
+            x: 30, y: 330,
             fontStyle: 'black',
             font: '40px Weltron Urban',
           },
           choice: {
             imageWidth: 512,
             ImageHeight: 58,
-            x: 200,
-            y1: 120,
-            y2: 240,
+            x: 80,
+            y1: 100,
+            y2: 220,
             drawWidth: 512,
             drawHeight: 58,
             fontStyle: 'black',
             font: '25px Weltron Urban',
-            textX: 240,
-            textY1: 165,
-            textY2: 285,
+            textX: 110,
+            textY1: 140,
+            textY2: 260,
           },
         },
         'type4': {
           message: {
-            imageWidth: 960,
-            ImageHeight: 160,
-            x: 10, y: 410,
-            drawWidth: 960,
-            drawHeight: 160,
+            imageWidth: 660,
+            ImageHeight: 170,
+            x: 10, y: 290,
+            drawWidth: 660,
+            drawHeight: 170,
             'text': {
-              height: 460,
-              width: 230,
+              height: 390,
+              width: 90,
               fontStyle: 'black',
               font: '40px Weltron Urban',
               fontSize: 40,
@@ -316,23 +316,23 @@ export default {
             }
           },
           name: {
-            x: 40, y: 460,
+            x: 30, y: 340,
             fontStyle: 'black',
             font: '40px Weltron Urban',
           },
           choice: {
             imageWidth: 550,
             ImageHeight: 50,
-            x: 200,
-            y1: 140,
-            y2: 260,
+            x: 70,
+            y1: 80,
+            y2: 200,
             drawWidth: 550,
             drawHeight: 50,
             fontStyle: 'black',
             font: '25px Weltron Urban',
-            textX: 230,
-            textY1: 175,
-            textY2: 295,
+            textX: 90,
+            textY1: 115,
+            textY2: 235,
           },
         },
      },
@@ -395,8 +395,8 @@ export default {
         data['width'],
         data['height'],
         0,0,//切り出されるCanvas内での座標指定
-        data['vectorX'] * 980, //切り出される画像の横幅
-        data['vectorY'] * 580 //切り出される画像の縦幅
+        data['vectorX'] * 680, //切り出される画像の横幅
+        data['vectorY'] * 480 //切り出される画像の縦幅
       );
 
       var messageOption = this.currentlmaterialOption.message
@@ -443,6 +443,7 @@ export default {
       if (this.isChoices) {
         var option = this.currentlmaterialOption.choice;
 
+        this.canvasContext.globalAlpha = 0.8; //透過
         this.canvasContext.drawImage(
           this.$refs[this.materialType + "_choice2"],
           0,
@@ -466,6 +467,7 @@ export default {
           option.drawHeight//切り出される画像の縦幅
         );
 
+        this.canvasContext.globalAlpha = 1.0; //透過解除
         this.canvasContext.fillStyle = option.fontStyle;
         this.canvasContext.font = option.font;
         this.canvasContext.fillText(this.choiceMessage1, option.textX, option.textY1);
@@ -478,6 +480,4 @@ export default {
 </script>
 
 <style>
-
-
 </style>
