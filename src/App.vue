@@ -22,31 +22,29 @@
       </div>
 
       <div class="card">
-        <div class="card-header">1. 画像のアップロード</div>
+        <div class="card-header">画像のアップロード ＆ サイズ調整</div>
         <div class="card-body">
+
           <div class="custom-file">
             <input type="file" name="file" @change="loadLocalImage" class="custom-file-input" lang="ja">
-            <label class="custom-file-label" for="validatedCustomFile">画像をアップロードする</label>
+            <label class="custom-file-label" for="validatedCustomFile">クリックして画像をアップロードする</label>
           </div>
-        </div>
-      </div>
 
-      <div class="card">
-        <div class="card-header">2. 画像のサイズ調整</div>
-        <div @mouseover="drawCanvas" @mouseout="drawCanvas" @click="drawCanvas" class="card-body">
-          <vue-cropper
-              ref='cropper'
-              :guides="true"
-              :view-mode="2"
-              drag-mode="crop"
-              :auto-crop-area="0.5"
-              :background="true"
-              :rotatable="true"
-              :src="cropperOptions.img"
-              alt="Source Image"
-              :img-style="{ 'width': '680', 'height': '480px' }">
-          </vue-cropper>
-        </div>
+          <div @mouseover="drawCanvas" @mouseout="drawCanvas" @click="drawCanvas">
+            <vue-cropper
+                ref='cropper'
+                :guides="true"
+                :view-mode="2"
+                drag-mode="crop"
+                :auto-crop-area="0.5"
+                :background="true"
+                :rotatable="true"
+                :src="cropperOptions.img"
+                alt="Source Image"
+                :img-style="{ 'width': '600', 'height': '400px' }">
+            </vue-cropper>
+          </div>
+        </div><!-- body -->
 
         <div class="card-footer">
           <p class="card-text">
@@ -134,18 +132,14 @@
 
             </div><!-- 選択肢 -->
 
+            <div class="card-body">
+              <a id="download_link" class="btn btn-primary" href="#" role="button" ref="downloadLink">画像ダウンロード</a>
+            </div>
           </form>
+
 
         </div><!-- div card footer -->
       </div><!-- div card -->
-
-      <div class="card">
-        <div class="card-header">4. 画像のダウンロード</div>
-        <div class="card-body">
-          <a id="download_link" class="btn btn-primary" href="#" role="button" ref="downloadLink">画像ダウンロード</a>
-        </div>
-      </div>
-
 
     </div><!-- row -->
 
