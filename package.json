@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "bootstrap-vue": "^2.0.0-rc.11",
     "cropper": "^4.0.0",
     "cropperjs": "^1.4.3",
     "jquery": "^3.3.1",

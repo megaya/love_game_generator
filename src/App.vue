@@ -1,27 +1,155 @@
 <template>
   <div class="container">
-    <h1>Crop on canvas with Cropper</h1>
-    <h3>Image</h3>
+    <div class="row">
+      <h1 class="display-">シュミレーションゲーム メーカー</h1>
 
-    <div class="upload"><input type="file" name="file" @change="loadLocalImage"></div>
+      <div class="jumbotron">
+        <p class="lead">
+          3ステップで簡単に画像をシュミレーションゲームのような会話ウィンドウと選択肢を追加できます。<br />
+          写真やお気に入りの画像を理想のゲームの世界に変更してみてください。
+        </p>
+        <ul class="list-unstyled">
+          <li>1. 画像のアップロード</li>
+          <li>2. 画像のサイズ調整</li>
+          <li>3. 画像の編集</li>
+        </ul>
+        <hr class="my-4">
+        <p>
+          なにか不具合があれば<a href="https://twitter.com/megaya0403" target="_blank">@megaya0403</a>までよろしくお願いします。
+        </p>
+      </div>
 
-		<vue-cropper
-				ref='cropper'
-				:guides="true"
-				:view-mode="2"
-				drag-mode="crop"
-				:auto-crop-area="0.5"
-				:min-container-width="250"
-				:min-container-height="180"
-				:background="true"
-				:rotatable="true"
-				:src="cropperOptions.img"
-				alt="Source Image"
-				:img-style="{ 'width': '980px', 'height': '580px' }">
-				:cropmove="test"
-		</vue-cropper>
-    <button @click="drawCanvas" style="margin-right: 40px;">Crop</button>
+      <div class="card">
+        <div class="card-header">1. 画像のアップロード</div>
+        <div class="card-body">
+          <div class="custom-file">
+            <input type="file" name="file" @change="loadLocalImage" class="custom-file-input" lang="ja">
+            <label class="custom-file-label" for="validatedCustomFile">画像をアップロードする</label>
+          </div>
+        </div>
+      </div>
 
+      <div class="card">
+        <div class="card-header">2. 画像のサイズ調整</div>
+        <div @mouseover="drawCanvas" @mouseout="drawCanvas" @click="drawCanvas" class="card-body">
+          <vue-cropper
+              ref='cropper'
+              :guides="true"
+              :view-mode="2"
+              drag-mode="crop"
+              :auto-crop-area="0.5"
+              :min-container-width="250"
+              :min-container-height="180"
+              :background="true"
+              :rotatable="true"
+              :src="cropperOptions.img"
+              alt="Source Image"
+              :img-style="{ 'width': '980px', 'height': '580px' }">
+          </vue-cropper>
+        </div>
+
+        <div class="card-footer">
+          <p class="card-text">
+            画像は位置調整や拡大や縮小ができます。<br />
+            画像のサイズを決定すると「3. 画像編集」に表示されます
+          </p>
+          <button class="btn btn-primary" @click="drawCanvas" style="margin-right: 40px;">画像サイズ決定</button>
+        </div>
+      </div><!-- div card -->
+
+
+      <div class="card">
+        <div class="card-header">3. 画像編集</div>
+        <div class="card-body">
+          <canvas id="canvas" class="img-canvas" width="980" height="580" ref="canvas"></canvas>
+        </div>
+        <div class="card-footer">
+
+          <form>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">デザイン</legend>
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
+                    <label class="form-check-label">タイプ1</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
+                    <label class="form-check-label">タイプ2</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" value="type3" v-model="materialType" :checked="materialType == 'type3'" @change="drawCanvas">
+                    <label class="form-check-label">タイプ3</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" value="type4" v-model="materialType" :checked="materialType == 'type4'" @change="drawCanvas">
+                    <label class="form-check-label">タイプ4</label>
+                  </div>
+                </div><!-- col-sm-10 -->
+              </div><!-- form radio -->
+            </fieldset>
+
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">名前</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" v-model="messageName" @keyup="drawCanvas"></input>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">メッセージ</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" v-model="messageText" @keyup="drawCanvas"></textarea>
+              </div>
+            </div>
+
+            <div>
+              <fieldset class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0">選択肢</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" v-model="isChoices" @change="drawCanvas">
+                      <label class="form-check-label">選択肢を表示する</label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div v-show="isChoices">
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">選択肢1</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="text" v-model="choiceMessage1" @keyup="drawCanvas"></input>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">選択肢2</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="text" v-model="choiceMessage2" @keyup="drawCanvas"></input>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- 選択肢 -->
+
+          </form>
+
+        </div><!-- div card footer -->
+      </div><!-- div card -->
+
+      <div class="card">
+        <div class="card-header">4. 画像のダウンロード</div>
+        <div class="card-body">
+          <a id="download_link" class="btn btn-primary" href="#" role="button" ref="downloadLink">画像ダウンロード</a>
+        </div>
+      </div>
+
+
+    </div><!-- row -->
+
+    <img src="./assets/game_image/sample.png" style="display:none" ref="sample_image"></img>
     <!-- type1 -->
     <img src="./assets/game_image/type1/message.png" style="display:none" ref="type1_image"></img>
     <img src="./assets/game_image/type1/button.png" style="display:none" ref="type1_choice1"></img>
@@ -39,52 +167,15 @@
     <img src="./assets/game_image/type4/button.png" style="display:none" ref="type4_choice1"></img>
     <img src="./assets/game_image/type4/button3.png" style="display:none" ref="type4_choice2"></img>
 
-
-
-    <h3>Canvas</h3>
-    <div>
-      <canvas id="canvas" class="img-canvas" width="980" height="580" ref="canvas"></canvas>
-    </div>
-
-    <div>
-      <div>
-        デザインタイプ
-        <br>
-        <input type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
-        <label for="one">1</label>
-        <br>
-        <input type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
-        <label for="two">2</label>
-        <br>
-        <input type="radio" value="type3" v-model="materialType" :checked="materialType == 'type3'" @change="drawCanvas">
-        <label for="two">3</label>
-        <br>
-        <input type="radio" value="type4" v-model="materialType" :checked="materialType == 'type4'" @change="drawCanvas">
-        <label for="two">4</label>
-        <br>
-      </div>
-      <div>
-        名前<input type="text" v-model="messageName" @keyup="drawCanvas"></input>
-      </div>
-      <div>
-        メッセージ<textarea v-model="messageText" @keyup="drawCanvas"></textarea>
-      </div>
-      <div>
-        選択肢
-        <input type="checkbox" v-model="isChoices" @change="drawCanvas">
-        選択肢1<input type="text" v-model="choiceMessage1" @keyup="drawCanvas"></input>
-        選択肢2<input type="text" v-model="choiceMessage2" @keyup="drawCanvas"></input>
-      </div>
-    </div>
-
-    <a href="" id="download_link" ref="downloadLink">ダウンロード</a>
   </div>
 </template>
 
 <script>
 import $ from 'jquery'
 import VueCropper from 'vue-cropperjs'
-// import Vue from 'vue/dist/vue.js'
+import Vue from 'vue/dist/vue.js'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
   name: 'App',
@@ -98,6 +189,7 @@ export default {
       choiceMessage1: '',
       choiceMessage2: '',
       currentMaterialOption: {},
+      downloadLink: "",
       materialOptions: {
         'type1': {
           message: {
@@ -215,7 +307,7 @@ export default {
             drawWidth: 960,
             drawHeight: 160,
             'text': {
-              height: 430,
+              height: 460,
               width: 230,
               fontStyle: 'black',
               font: '40px Weltron Urban',
@@ -224,7 +316,7 @@ export default {
             }
           },
           name: {
-            x: 40, y: 430,
+            x: 40, y: 460,
             fontStyle: 'black',
             font: '40px Weltron Urban',
           },
@@ -244,9 +336,7 @@ export default {
           },
         },
      },
-
-     downloadLink: "",
-      cropperOptions: {
+     cropperOptions: {
         img: null,
         size: 1,
         full: false,
@@ -259,6 +349,14 @@ export default {
         fixedNumber: [1, 1] // 1:1 の比率
       }
     }
+  },
+  created: function() {
+    var self = this;
+    Vue.nextTick(function () {
+			self.cropperOptions.img = self.$refs.sample_image.src;
+			self.$refs.cropper.replace(self.$refs.sample_image.src);
+      self.drawCanvas();
+    })
   },
   methods: {
     loadLocalImage: function(e) {
@@ -380,4 +478,6 @@ export default {
 </script>
 
 <style>
+
+
 </style>
