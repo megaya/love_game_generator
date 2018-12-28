@@ -1,12 +1,14 @@
 <template>
   <div class="container">
     <div class="row">
-      <h1 class="display-">シュミレーションゲーム メーカー</h1>
 
       <div class="jumbotron">
+        <h1 class="display-4">シュミレーションゲーム風ジェネレーター</h1>
+        <hr class="my-4">
         <p class="lead">
-          3ステップで簡単に画像をシュミレーションゲームのような会話ウィンドウと選択肢を追加できます。<br />
-          写真やお気に入りの画像を理想のゲームの世界に変更してみてください。
+          画像をシュミレーションゲームのような会話ウィンドウと選択肢を追加できます。<br />
+          写真やお気に入りの画像を理想のゲームの世界に変更してみてください。<br />
+          3ステップで簡単に画像を作ることができるので、ぜひ作ってみてください。
         </p>
         <ul class="list-unstyled">
           <li>1. 画像のアップロード</li>
@@ -16,7 +18,7 @@
         <img src="./assets/top.jpg" class="rounded" alt="Responsive image" width="430" height="540">
 
         <hr class="my-4">
-        <p>
+        <p class="description">
           なにか不具合があれば<a href="https://twitter.com/megaya0403" target="_blank">@megaya0403</a>までよろしくお願いします。
         </p>
       </div>
@@ -66,8 +68,8 @@
           <form>
             <fieldset class="form-group">
               <div class="row">
-                <legend class="col-form-label col-sm-2 pt-0">デザイン</legend>
-                <div class="col-sm-10">
+                <legend class="col-form-label col-sm-4 pt-0">デザイン</legend>
+                <div class="col-sm-8">
                   <div class="form-check">
                     <input class="form-check-input" type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
                     <label class="form-check-label">タイプ1</label>
@@ -89,8 +91,8 @@
             </fieldset>
 
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label">フォント</label>
-              <div class="col-sm-10">
+              <label class="col-sm-4 col-form-label">フォント</label>
+              <div class="col-sm-8">
                 <select class="form-control" v-model="fontTypeCurrent" @change="drawCanvas">
                   <option v-for="fontType in fontTypes" v-bind:value="fontType">
                     {{ fontType }}
@@ -100,26 +102,26 @@
             </div>
 
             <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">名前</label>
-              <div class="col-sm-10">
+              <label for="inputEmail3" class="col-sm-4 col-form-label">名前</label>
+              <div class="col-sm-8">
                 <input type="text" class="form-control" v-model="messageName" @keyup="drawCanvas"></input>
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">メッセージ</label>
-              <div class="col-sm-10">
+              <label for="inputEmail3" class="col-sm-4 col-form-label">メッセージ</label>
+              <div class="col-sm-8">
                 <textarea class="form-control" v-model="messageText" @keyup="drawCanvas"></textarea>
               </div>
             </div>
 
             <fieldset class="form-group">
               <div class="row">
-                <legend class="col-form-label col-sm-2 pt-0">システムボタン</legend>
-                <div class="col-sm-10">
+                <legend class="col-form-label col-sm-4 pt-0">ボタン</legend>
+                <div class="col-sm-8">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" v-model="isSysytemButton" @change="drawCanvas">
-                    <label class="form-check-label">表示する</label>
+                    <label class="form-check-label">システムボタンを表示する</label>
                   </div>
                 </div>
               </div>
@@ -129,8 +131,8 @@
             <div>
               <fieldset class="form-group">
                 <div class="row">
-                  <legend class="col-form-label col-sm-2 pt-0">選択肢</legend>
-                  <div class="col-sm-10">
+                  <legend class="col-form-label col-sm-4 pt-0">選択肢</legend>
+                  <div class="col-sm-8">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" v-model="isChoices" @change="drawCanvas">
                       <label class="form-check-label">選択肢を表示する</label>
@@ -141,14 +143,14 @@
 
               <div v-show="isChoices">
                 <div class="form-group row">
-                  <label for="inputEmail3" class="col-sm-2 col-form-label">選択肢1</label>
-                  <div class="col-sm-10">
+                  <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢1</label>
+                  <div class="col-sm-8">
                     <input class="form-control" type="text" v-model="choiceMessage1" @keyup="drawCanvas"></input>
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label for="inputEmail3" class="col-sm-2 col-form-label">選択肢2</label>
-                  <div class="col-sm-10">
+                  <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢2</label>
+                  <div class="col-sm-8">
                     <input class="form-control" type="text" v-model="choiceMessage2" @keyup="drawCanvas"></input>
                   </div>
                 </div>
@@ -552,4 +554,16 @@ export default {
 </script>
 
 <style>
+html {font-size: 82.5%;}
+body {font-size: 1.5rem;}
+ul {font-size: 1.3rem;}
+
+.custom-file {
+  margin-bottom: 20px;
+}
+
+.card {
+  margin-bottom: 30px;
+}
+
 </style>
