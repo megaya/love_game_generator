@@ -2,13 +2,13 @@
   <div class="container">
 
     <div class="jumbotron">
-      <h1 class="display-4">シュミレーションゲーム風メーカー</h1>
+      <h1 class="display-4">恋愛ゲーム風ジェネレーター</h1>
       <hr class="my-4">
       <img src="./assets/top.jpg" alt="Responsive image" width="430" height="540"  class="img-thumbnail">
       <br />
       <br />
       <p>
-        画像にシュミレーションゲームのような会話ウィンドウと選択肢を追加できます。<br />
+        画像にシュミレーションゲーム風の会話ウィンドウと選択肢を追加できます。<br />
         写真やお気に入りの画像を理想のゲームの世界に変更してみてください。<br />
         <br />
         3ステップで簡単に画像を作ることができます。
@@ -22,28 +22,8 @@
       <hr class="my-4">
       <p class="description">
         要望や不具合があれば<a href="https://twitter.com/megaya0403" target="_blank">@megaya0403</a>までよろしくお願いします。<br />
-        「#シュミレーションゲーム風メーカー」 で感想いただけると泣いて喜びます。
+        「#恋愛ゲーム風ジェネレーター」 で感想いただけると泣いて喜びます。
       </p>
-
-      <social-sharing url="https://slg-generator.megaya.net"
-        title="シュミレーションゲーム風メーカー"
-        description="画像をゲームみたいな画面にしよう！"
-        hashtags="シュミレーションゲーム風メーカー"
-        inline-template>
-
-        <div>
-          <button type="button" class="btn btn-social btn-tw">
-            <network network="twitter">
-              <font-awesome-icon :icon="['fab', 'twitter']" size="lg"></font-awesome-icon> Twitter
-            </network>
-          </button>
-          <button type="button" class="btn btn-social btn-fb">
-            <network network="facebook">
-              <font-awesome-icon :icon="['fab', 'facebook']" size="lg"></font-awesome-icon> Facebook
-            </network>
-          </button>
-        </div>
-      </social-sharing>
     </div>
 
     <div class="card">
@@ -192,6 +172,36 @@
 
         </div><!-- div card footer -->
       </div><!-- div card -->
+
+      <social-sharing url="https://slg-generator.megaya.net"
+        title="恋愛ゲーム風ジェネレーター"
+        description="シュミレーションゲームの会話風の画面がブラウザで簡単に作れます！どんな写真でもすぐにゲームの世界へ…！"
+        hashtags="恋愛ゲーム風ジェネレーター"
+        inline-template>
+
+        <div>
+          <button type="button" class="btn btn-social btn-tw">
+            <network network="twitter">
+              <font-awesome-icon :icon="['fab', 'twitter']" size="lg"></font-awesome-icon> ツイート　
+            </network>
+          </button>
+          <button type="button" class="btn btn-social btn-fb">
+            <network network="facebook">
+              <font-awesome-icon :icon="['fab', 'facebook']" size="lg"></font-awesome-icon> Facebookでシェア
+            </network>
+          </button>
+        </div>
+      </social-sharing>
+
+      <ul class="list-group list-group-flush etc-description">
+        <li class="list-group-item">作った人：<a href="https://twitter.com/megaya0403" target="_blank">megaya</a></li>
+        <li class="list-group-item">お借りしたゲーム素材：<a href="https://kopacurve.blog.fc2.com/" target="_blank">空想曲線</a></li>
+      </ul>
+
+    <footer class="text-center copy-light">
+      © 2018 megaya All rights rserved
+    </footer>
+
 
 
     <img src="./assets/game_image/sample.png" style="display:none" ref="sample_image"></img>
@@ -621,8 +631,9 @@ input[type=text] {
 
 /* SNSボタン */
 .btn-social {
-  width: 120px;
+  width: 250px;
   color: white;
+  font-size: 1.6rem;
 }
 /* Facebook */
 .btn-fb {
@@ -633,4 +644,13 @@ input[type=text] {
   background-color: #00aced;
 }
 
+.etc-description {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.copy-light {
+  opacity:0.5;
+  font-size: 1.0rem;
+}
 </style>
