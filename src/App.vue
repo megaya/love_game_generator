@@ -1,177 +1,198 @@
 <template>
   <div class="container">
-    <div class="row">
 
-      <div class="jumbotron">
-        <h1 class="display-4">シュミレーションゲーム風ジェネレーター</h1>
-        <hr class="my-4">
-        <p>
-          画像にシュミレーションゲームのような会話ウィンドウと選択肢を追加できます。<br />
-          写真やお気に入りの画像を理想のゲームの世界に変更してみてください。<br />
-          <br />
-          3ステップで簡単に画像を作ることができます。
-        </p>
-        <ul class="list-unstyled">
-          <li>1. 画像のアップロード</li>
-          <li>2. 画像のサイズ調整</li>
-          <li>3. 画像の編集</li>
-        </ul>
-        <img src="./assets/top.jpg" alt="Responsive image" width="430" height="540"  class="img-thumbnail">
+    <div class="jumbotron">
+      <h1 class="display-4">シュミレーションゲーム風メーカー</h1>
+      <hr class="my-4">
+      <img src="./assets/top.jpg" alt="Responsive image" width="430" height="540"  class="img-thumbnail">
+      <br />
+      <br />
+      <p>
+        画像にシュミレーションゲームのような会話ウィンドウと選択肢を追加できます。<br />
+        写真やお気に入りの画像を理想のゲームの世界に変更してみてください。<br />
+        <br />
+        3ステップで簡単に画像を作ることができます。
+      </p>
+      <ul class="list-unstyled">
+        <li>1. 画像のアップロード</li>
+        <li>2. 画像のサイズ調整</li>
+        <li>3. 画像の編集</li>
+      </ul>
 
-        <hr class="my-4">
-        <p class="description">
-          要望や不具合があれば<a href="https://twitter.com/megaya0403" target="_blank">@megaya0403</a>までよろしくお願いします。
+      <hr class="my-4">
+      <p class="description">
+        要望や不具合があれば<a href="https://twitter.com/megaya0403" target="_blank">@megaya0403</a>までよろしくお願いします。<br />
+        「#シュミレーションゲーム風メーカー」 で感想いただけると泣いて喜びます。
+      </p>
+
+      <social-sharing url="https://slg-generator.megaya.net"
+        title="シュミレーションゲーム風メーカー"
+        description="画像をゲームみたいな画面にしよう！"
+        hashtags="シュミレーションゲーム風メーカー"
+        inline-template>
+
+        <div>
+          <button type="button" class="btn btn-social btn-tw">
+            <network network="twitter">
+              <font-awesome-icon :icon="['fab', 'twitter']" size="lg"></font-awesome-icon> Twitter
+            </network>
+          </button>
+          <button type="button" class="btn btn-social btn-fb">
+            <network network="facebook">
+              <font-awesome-icon :icon="['fab', 'facebook']" size="lg"></font-awesome-icon> Facebook
+            </network>
+          </button>
+        </div>
+      </social-sharing>
+    </div>
+
+    <div class="card">
+      <div class="card-header">画像のアップロード ＆ サイズ調整</div>
+
+      <div class="card-body">
+        <label class="upload-btn">
+          <span class="btn-lg btn-primary">
+            画像をアップロードする
+            <input type="file" name="file" @change="loadLocalImage" lang="ja" style="display:none">
+          </span>
+        </label>
+
+        <div @mouseover="drawCanvas" @mouseout="drawCanvas" @click="drawCanvas">
+          <vue-cropper
+              ref='cropper'
+              :guides="true"
+              :view-mode="2"
+              drag-mode="crop"
+              :auto-crop-area="0.5"
+              :background="true"
+              :rotatable="true"
+              :src="cropperOptions.img"
+              alt="Source Image"
+              :img-style="{ 'width': '600', 'height': '400px' }">
+          </vue-cropper>
+        </div>
+
+      </div><!-- body -->
+
+      <div class="card-footer">
+        <p class="card-text description">
+          画像は位置調整や拡大や縮小ができます。<br />
+          「画像サイズ決定」ボタンを押すと下の「画像編集」に表示されます。
         </p>
+        <button class="btn-lg btn-secondary" @click="drawCanvas">画像サイズ決定</button>
       </div>
+    </div><!-- div card -->
 
-      <div class="card">
-        <div class="card-header">画像のアップロード ＆ サイズ調整</div>
 
-        <div class="card-body">
-          <label class="upload-btn">
-            <span class="btn-lg btn-primary">
-              画像をアップロードする
-              <input type="file" name="file" @change="loadLocalImage" lang="ja" style="display:none">
-            </span>
-          </label>
+    <div class="card">
+      <div class="card-header"> 画像編集</div>
+      <div class="card-body text-center">
+        <canvas id="canvas" class="img-canvas" width="680" height="480" ref="canvas"></canvas>
+      </div>
+      <div class="card-footer">
 
-          <div @mouseover="drawCanvas" @mouseout="drawCanvas" @click="drawCanvas">
-            <vue-cropper
-                ref='cropper'
-                :guides="true"
-                :view-mode="2"
-                drag-mode="crop"
-                :auto-crop-area="0.5"
-                :background="true"
-                :rotatable="true"
-                :src="cropperOptions.img"
-                alt="Source Image"
-                :img-style="{ 'width': '600', 'height': '400px' }">
-            </vue-cropper>
+        <form>
+          <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-4 pt-0">デザイン</legend>
+              <div class="col-sm-8">
+                <div class="form-check">
+                  <input id="type1" class="form-check-input" type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
+                  <label for="type1" class="form-check-label">タイプ1</label>
+                </div>
+                <div class="form-check">
+                  <input id="type2" class="form-check-input" type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
+                  <label for="type2" class="form-check-label">タイプ2</label>
+                </div>
+                <div class="form-check">
+                  <input id="type3" class="form-check-input" type="radio" value="type3" v-model="materialType" :checked="materialType == 'type3'" @change="drawCanvas">
+                  <label for="type3" class="form-check-label">タイプ3</label>
+                </div>
+                <div class="form-check">
+                  <input id="type4" class="form-check-input" type="radio" value="type4" v-model="materialType" :checked="materialType == 'type4'" @change="drawCanvas">
+                  <label for="type4" class="form-check-label">タイプ4</label>
+                </div>
+              </div><!-- col-sm-10 -->
+            </div><!-- form radio -->
+          </fieldset>
+
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">フォント</label>
+            <div class="col-sm-8">
+              <select class="form-control" v-model="fontTypeCurrent" @change="drawCanvas">
+                <option v-for="fontType in fontTypes" v-bind:value="fontType" class="font-type">
+                  {{ fontType }}
+                </option>
+              </select>
+            </div>
           </div>
 
-        </div><!-- body -->
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4 col-form-label">名前</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" v-model="messageName" @keyup="drawCanvas"></input>
+            </div>
+          </div>
 
-        <div class="card-footer">
-          <p class="card-text description">
-            画像は位置調整や拡大や縮小ができます。<br />
-            「画像サイズ決定」ボタンを押すと下の「画像編集」に表示されます。
-          </p>
-          <button class="btn-lg btn-secondary" @click="drawCanvas">画像サイズ決定</button>
-        </div>
-      </div><!-- div card -->
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4 col-form-label">メッセージ</label>
+            <div class="col-sm-8">
+              <textarea class="form-control textarea-message" v-model="messageText" @keyup="drawCanvas"></textarea>
+            </div>
+          </div>
+
+          <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-4 pt-0">ボタン</legend>
+              <div class="col-sm-8">
+                <div class="form-check">
+                  <input id="system-button-check" class="form-check-input" type="checkbox" v-model="isSysytemButton" @change="drawCanvas">
+                  <label for="system-button-check" class="form-check-label">システムボタンを表示する</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
 
 
-      <div class="card">
-        <div class="card-header"> 画像編集</div>
-        <div class="card-body">
-          <canvas id="canvas" class="img-canvas" width="680" height="480" ref="canvas"></canvas>
-        </div>
-        <div class="card-footer">
-
-          <form>
+          <div>
             <fieldset class="form-group">
               <div class="row">
-                <legend class="col-form-label col-sm-4 pt-0">デザイン</legend>
+                <legend class="col-form-label col-sm-4 pt-0">選択肢</legend>
                 <div class="col-sm-8">
                   <div class="form-check">
-                    <input id="type1" class="form-check-input" type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
-                    <label for="type1" class="form-check-label">タイプ1</label>
-                  </div>
-                  <div class="form-check">
-                    <input id="type2" class="form-check-input" type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
-                    <label for="type2" class="form-check-label">タイプ2</label>
-                  </div>
-                  <div class="form-check">
-                    <input id="type3" class="form-check-input" type="radio" value="type3" v-model="materialType" :checked="materialType == 'type3'" @change="drawCanvas">
-                    <label for="type3" class="form-check-label">タイプ3</label>
-                  </div>
-                  <div class="form-check">
-                    <input id="type4" class="form-check-input" type="radio" value="type4" v-model="materialType" :checked="materialType == 'type4'" @change="drawCanvas">
-                    <label for="type4" class="form-check-label">タイプ4</label>
-                  </div>
-                </div><!-- col-sm-10 -->
-              </div><!-- form radio -->
-            </fieldset>
-
-            <div class="form-group row">
-              <label class="col-sm-4 col-form-label">フォント</label>
-              <div class="col-sm-8">
-                <select class="form-control" v-model="fontTypeCurrent" @change="drawCanvas">
-                  <option v-for="fontType in fontTypes" v-bind:value="fontType" class="font-type">
-                    {{ fontType }}
-                  </option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-4 col-form-label">名前</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" v-model="messageName" @keyup="drawCanvas"></input>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-4 col-form-label">メッセージ</label>
-              <div class="col-sm-8">
-                <textarea class="form-control textarea-message" v-model="messageText" @keyup="drawCanvas"></textarea>
-              </div>
-            </div>
-
-            <fieldset class="form-group">
-              <div class="row">
-                <legend class="col-form-label col-sm-4 pt-0">ボタン</legend>
-                <div class="col-sm-8">
-                  <div class="form-check">
-                    <input id="system-button-check" class="form-check-input" type="checkbox" v-model="isSysytemButton" @change="drawCanvas">
-                    <label for="system-button-check" class="form-check-label">システムボタンを表示する</label>
+                    <input id="choice-check" class="form-check-input" type="checkbox" v-model="isChoices" @change="drawCanvas">
+                    <label for="choice-check" class="form-check-label">選択肢を表示する</label>
                   </div>
                 </div>
               </div>
             </fieldset>
-
 
             <div>
-              <fieldset class="form-group">
-                <div class="row">
-                  <legend class="col-form-label col-sm-4 pt-0">選択肢</legend>
-                  <div class="col-sm-8">
-                    <div class="form-check">
-                      <input id="choice-check" class="form-check-input" type="checkbox" v-model="isChoices" @change="drawCanvas">
-                      <label for="choice-check" class="form-check-label">選択肢を表示する</label>
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-
-              <div>
-                <div class="form-group row">
-                  <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢1</label>
-                  <div class="col-sm-8">
-                    <input class="form-control" type="text" v-model="choiceMessage1" @keyup="drawCanvas"></input>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢2</label>
-                  <div class="col-sm-8">
-                    <input class="form-control" type="text" v-model="choiceMessage2" @keyup="drawCanvas"></input>
-                  </div>
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢1</label>
+                <div class="col-sm-8">
+                  <input class="form-control" type="text" v-model="choiceMessage1" @keyup="drawCanvas"></input>
                 </div>
               </div>
-
-            </div><!-- 選択肢 -->
-
-            <div class="card-body">
-              <a id="download_link" class="btn-lg btn-primary" href="#" role="button" ref="downloadLink">画像ダウンロード</a>
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢2</label>
+                <div class="col-sm-8">
+                  <input class="form-control" type="text" v-model="choiceMessage2" @keyup="drawCanvas"></input>
+                </div>
+              </div>
             </div>
-          </form>
+
+          </div><!-- 選択肢 -->
+
+          <div class="card-body">
+            <a id="download_link" class="btn-lg btn-primary" href="#" role="button" ref="downloadLink">画像ダウンロード</a>
+          </div>
+        </form>
 
 
         </div><!-- div card footer -->
       </div><!-- div card -->
 
-    </div><!-- row -->
 
     <img src="./assets/game_image/sample.png" style="display:none" ref="sample_image"></img>
     <!-- type1 -->
@@ -596,6 +617,20 @@ input[type=text] {
 
 .card {
   margin-bottom: 30px;
+}
+
+/* SNSボタン */
+.btn-social {
+  width: 120px;
+  color: white;
+}
+/* Facebook */
+.btn-fb {
+  background-color: #3B5998;
+}
+/* Twitter */
+.btn-tw {
+  background-color: #00aced;
 }
 
 </style>
