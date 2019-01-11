@@ -76,19 +76,19 @@
             <div class="row">
               <legend class="col-form-label col-sm-4 pt-0">デザイン</legend>
               <div class="col-sm-8">
-                <div class="form-check">
+                <div class="form-check-inline">
                   <input id="type1" class="form-check-input" type="radio" value="type1" v-model="materialType" :checked="materialType == 'type1'" @change="drawCanvas">
                   <label for="type1" class="form-check-label">タイプ1</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check-inline">
                   <input id="type2" class="form-check-input" type="radio" value="type2" v-model="materialType" :checked="materialType == 'type2'" @change="drawCanvas">
                   <label for="type2" class="form-check-label">タイプ2</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check-inline">
                   <input id="type3" class="form-check-input" type="radio" value="type3" v-model="materialType" :checked="materialType == 'type3'" @change="drawCanvas">
                   <label for="type3" class="form-check-label">タイプ3</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check-inline">
                   <input id="type4" class="form-check-input" type="radio" value="type4" v-model="materialType" :checked="materialType == 'type4'" @change="drawCanvas">
                   <label for="type4" class="form-check-label">タイプ4</label>
                 </div>
@@ -97,20 +97,9 @@
           </fieldset>
 
           <div class="form-group row">
-            <label class="col-sm-4 col-form-label">フォント</label>
-            <div class="col-sm-8">
-              <select class="form-control" v-model="fontTypeCurrent" @change="drawCanvas">
-                <option v-for="fontType in fontTypes" v-bind:value="fontType" class="font-type">
-                  {{ fontType }}
-                </option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group row">
             <label for="inputEmail3" class="col-sm-4 col-form-label">名前</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" v-model="messageName" @keyup="drawCanvas"></input>
+              <input type="text" class="form-control form-control-lg textarea-message" v-model="messageName" @keyup="drawCanvas"></input>
             </div>
           </div>
 
@@ -121,20 +110,22 @@
             </div>
           </div>
 
-          <fieldset class="form-group">
-            <div class="row">
-              <legend class="col-form-label col-sm-4 pt-0">ボタン</legend>
-              <div class="col-sm-8">
-                <div class="form-check">
-                  <input id="system-button-check" class="form-check-input" type="checkbox" v-model="isSysytemButton" @change="drawCanvas">
-                  <label for="system-button-check" class="form-check-label">システムボタンを表示する</label>
+          <div><!-- 選択肢 -->
+            <div>
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢1</label>
+                <div class="col-sm-8">
+                  <input class="form-control form-control-lg" type="text" v-model="choiceMessage1" @keyup="drawCanvas"></input>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢2</label>
+                <div class="col-sm-8">
+                  <input class="form-control form-control-lg" type="text" v-model="choiceMessage2" @keyup="drawCanvas"></input>
                 </div>
               </div>
             </div>
-          </fieldset>
 
-
-          <div>
             <fieldset class="form-group">
               <div class="row">
                 <legend class="col-form-label col-sm-4 pt-0">選択肢</legend>
@@ -146,23 +137,30 @@
                 </div>
               </div>
             </fieldset>
+          </div><!-- 選択肢 -->
 
-            <div>
-              <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢1</label>
-                <div class="col-sm-8">
-                  <input class="form-control" type="text" v-model="choiceMessage1" @keyup="drawCanvas"></input>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-4 col-form-label">選択肢2</label>
-                <div class="col-sm-8">
-                  <input class="form-control" type="text" v-model="choiceMessage2" @keyup="drawCanvas"></input>
+          <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-4 pt-0">ボタン</legend>
+              <div class="col-sm-8">
+                <div class="form-check">
+                  <input id="system-button-check" class="form-check-input" type="checkbox" v-model="isSysytemButton" @change="drawCanvas">
+                  <label for="system-button-check" class="form-check-label">セーブボタンなどを表示する</label>
                 </div>
               </div>
             </div>
+          </fieldset>
 
-          </div><!-- 選択肢 -->
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">フォント</label>
+            <div class="col-sm-8">
+              <select class="form-control form-control-lg" v-model="fontTypeCurrent" @change="drawCanvas">
+                <option v-for="fontType in fontTypes" v-bind:value="fontType" class="font-type">
+                  {{ fontType }}
+                </option>
+              </select>
+            </div>
+          </div>
 
           <div class="card-body">
             <input type="button" class="btn-lg btn-secondary" @click="complete" value="完成！！" />
@@ -285,7 +283,7 @@ export default {
           name: {
             x: 20, y: 330,
             fontStyle: 'white',
-            font: '40px',
+            font: '30px',
           },
           choice: {
             imageWidth: 450,
@@ -321,7 +319,7 @@ export default {
           name: {
             x: 30, y: 335,
             fontStyle: 'white',
-            font: '40px',
+            font: '30px',
           },
           choice: {
             imageWidth: 486,
@@ -357,7 +355,7 @@ export default {
           name: {
             x: 30, y: 330,
             fontStyle: 'black',
-            font: '40px',
+            font: '30px',
           },
           choice: {
             imageWidth: 512,
@@ -393,7 +391,7 @@ export default {
           name: {
             x: 30, y: 340,
             fontStyle: 'black',
-            font: '40px',
+            font: '30px',
           },
           choice: {
             imageWidth: 550,
@@ -609,16 +607,8 @@ ul {font-size: 1.3rem;}
   font-size: 1.4em;
 }
 
-form {
-  font-size: 1.1em;
-}
-
-.form-check {
-  margin-bottom: 15px;
-}
-
-input[type=text] {
-  font-size: 30px;
+.form-check-inline {
+  font-size: 0.8em;
 }
 
 .textarea-message {
