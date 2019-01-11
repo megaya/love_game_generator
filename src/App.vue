@@ -165,13 +165,21 @@
           </div><!-- 選択肢 -->
 
           <div class="card-body">
-            <a id="download_link" class="btn-lg btn-primary" href="#" role="button" ref="downloadLink">画像ダウンロード</a>
+            <input type="button" class="btn-lg btn-secondary" @click="complete" value="完成！！" />
           </div>
         </form>
 
-
         </div><!-- div card footer -->
       </div><!-- div card -->
+
+      <div class="card" v-if="completeImageSrc">
+        <div class="card-header">こちらの画像をダウンロードして自由にお使いください</div>
+        <div class="card-body text-center">
+          <div>
+            <img :src="completeImageSrc" class="img-thumbnail">
+          </div>
+        </div>
+      </div>
 
       <social-sharing url="https://slg-generator.megaya.net"
         title="恋愛ゲーム風ジェネレーター"
@@ -250,7 +258,7 @@ export default {
       choiceMessage1: '',
       choiceMessage2: '',
       currentMaterialOption: {},
-      downloadLink: "",
+      completeImageSrc: "",
       fontTypes: ['sans-serif', 'arial', 'serif', 'Impact', 'Century', 'monospace', 'fantasy', 'HG行書体', 'MingLiU',
                   'メイリオ', 'ＭＳ ゴシック', '游ゴシック', 'Yu Gothic', 'MS PGothic',
                   'HiraMinProN-W3', 'HG明朝E', 'ＭＳ 明朝',
@@ -485,9 +493,6 @@ export default {
       this.drawMessageText();
       this.drawChoices();
       this.drawSystemButton();
-
-      this.$refs.downloadLink.href = this.$refs.canvas.toDataURL();
-      this.$refs.downloadLink.download = 'sample.jpg';
     },
     addFontTypeCurrent: function(str) {
       return str + " " + this.fontTypeCurrent;
@@ -583,6 +588,9 @@ export default {
         this.canvasContext.fillText(this.choiceMessage2, option.textX, option.textY2);
       }
     },
+    complete: function() {
+      this.completeImageSrc = this.$refs.canvas.toDataURL('image/jpeg');
+    }
   },
   components: { VueCropper },
 }
