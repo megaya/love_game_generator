@@ -173,13 +173,14 @@
       <div class="card" v-if="completeImageSrc">
         <div class="card-header">こちらの画像をダウンロードして自由にお使いください</div>
         <div class="card-body text-center">
+          <p>※ スマホの方は画像を長押ししてダウンロードしてください</p>
           <div>
             <img :src="completeImageSrc" class="img-thumbnail">
           </div>
         </div>
       </div>
 
-      <social-sharing url="https://slg-generator.megaya.net"
+      <social-sharing url="https://love-game-generator.megaya.net"
         title="恋愛ゲーム風ジェネレーター"
         description="シュミレーションゲームの会話風の画面がブラウザで簡単に作れます！どんな写真でもすぐにゲームの世界へ…！"
         hashtags="恋愛ゲーム風ジェネレーター"
