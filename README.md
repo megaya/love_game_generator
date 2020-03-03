@@ -1,21 +1,7 @@
-# gyaru_game_genarator
+Vue.jsとCanvasを使った画像ジェネレーターのWebサイト
 
-> A Vue.js project
+![画像](https://user-images.githubusercontent.com/9382949/75755972-139e8700-5d73-11ea-99d5-59234c5b3161.jpg)
+（こんな感じに装飾します）
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+詳しくはQiitaを見てください
+https://qiita.com/magaya0403/items/e9dc141436376532b568
